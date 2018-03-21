@@ -6,7 +6,7 @@
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 14:53:12 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 18:58:47 by juspende         ###   ########.fr       */
+/*   Updated: 2018/03/21 19:58:54 by juspende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,16 @@ extern int				lemin_parse(t_map *rooms, int *ants)
 	end = 0;
 	room = 0;
 	*ants = -1;
-	while ((ret = gnl(FD_IN, &op)) == 1 && end != EXIT)
+	while (end != EXIT && (ret = gnl(FD_IN, &op)) == 1)
 		if (is_commentary(op) == FALSE)
 			end = EXIT;
+	dprintf(2, "Hey %d\n", ret);
 	if ((*ants = is_ant(op)) < 0 || ret != 1)
 		return (*ants); // ERROR HANDLING TO DO
+	end = 0;
 	while ((ret = gnl(FD_IN, &op)) == 1 && end != EXIT)
+	{
+		dprintf(2, "Yop\n");
 		if (is_commentary(op) == TRUE)
 			end = 0;
 		else if (push_rooms(op, rooms) == SUCCESS)
@@ -98,6 +102,8 @@ extern int				lemin_parse(t_map *rooms, int *ants)
 			free(op);
 		else
 			end = EXIT;
+		dprintf(2, "room pushed\n");
+	}
 	if (room == 0 || ret != 1)
 		return (NO_ROOM);
 	return (SUCCESS);
