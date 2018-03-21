@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/21 15:12:04 by juspende         ###   ########.fr        #
+#    Updated: 2018/03/21 16:27:38 by juspende         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ endif
 3TH_NAME = libft
 SRC_NAME = \
 	lemin.c \
-	parsing.c
+	parser.c
 
 3TH = $(addprefix $(3TH_PATH)/, $(3TH_NAME))
 OBJ = $(addprefix $(OBJ_PATH)/, $(SRC_NAME:.c=.o))
