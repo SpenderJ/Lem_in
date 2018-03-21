@@ -13,7 +13,7 @@
 #ifndef LEMIN_LEMIN_H
 # define LEMIN_LEMIN_H
 
-# include <libft.h>
+# include "room.h"
 
 #define OPT_VERB (1 << 0)
 #define OPT_STEP (1 << 1)
@@ -24,6 +24,8 @@ typedef struct	s_lemin
 	int			input;
 	int			output;
 	int			options;
+	t_room		*start;
+	t_room		*end;
 }				t_lemin;
 
 #endif

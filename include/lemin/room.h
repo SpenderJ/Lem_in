@@ -63,4 +63,6 @@ extern int		lemin_roomadd(t_map *rooms, t_room room);
 */
 extern int		lemin_linkadd(t_map *rooms, char const *from, char const *to);
 
+extern int		lemin_linked(t_room *from, t_room *to);
+
 #endif
