@@ -6,13 +6,14 @@
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 10:46:24 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 15:11:45 by juspende         ###   ########.fr       */
+/*   Updated: 2018/03/21 19:29:18 by juspende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEMIN_H
 # define LEMIN_H
 
+# include <stdio.h>
 # include "lemin/lemin.h"
 # include "lemin/parser.h"
 # include "lemin/room.h"
