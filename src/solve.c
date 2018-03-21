@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin.h                                            :+:      :+:    :+:   */
+/*   solve.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 10:46:24 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 15:11:45 by juspende         ###   ########.fr       */
+/*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
+/*   Updated: 2018/03/21 15:11:40 by juspende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_H
-# define LEMIN_H
+#include "lemin/solve.h"
+#include "lemin/lemin.h"
 
-# include "lemin/lemin.h"
-# include "lemin/parser.h"
-# include "lemin/room.h"
-# include "lemin/solve.h"
+void	dump(t_map *rooms, int ants)
+{
+	(void)rooms;
+	(void)ants;
+	ft_printf("");
+}
 
-#endif
+int		lemin_solve(t_lemin *lemin, t_map *rooms, int ants)
+{
+	(void)lemin;
+	dump(rooms, ants);
+	return (YEP);
+}

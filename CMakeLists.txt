@@ -16,6 +16,7 @@ file(GLOB_RECURSE lemin_HDRS ${lemin_HDRS} include/lemin/*.h)
 add_executable(lem-in ${lemin_HDRS} include/lemin.h
   src/lemin.c
   src/parser.c
+  src/solve.c
   src/room.c)
 set_property(TARGET lem-in PROPERTY C_STANDARD 90)
 target_include_directories(lem-in PUBLIC include)

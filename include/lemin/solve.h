@@ -15,6 +15,8 @@
 
 # include "room.h"
 
-extern int		lemin_solve(t_map *rooms, uint32_t ants);
+struct s_lemin;
+
+extern int	lemin_solve(struct s_lemin *lemin, t_map *rooms, int ants);
 
 #endif

@@ -41,7 +41,11 @@ SRC_NAME = \
 	lemin.c \
 	parser.c \
 	room.c \
+<<<<<<< HEAD
 	room_parser.c
+=======
+	solve.c
+>>>>>>> 2de22b6fc140d43c44e5049dcca52b7ee314d429
 
 3TH = $(addprefix $(3TH_PATH)/, $(3TH_NAME))
 OBJ = $(addprefix $(OBJ_PATH)/, $(SRC_NAME:.c=.o))

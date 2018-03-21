@@ -6,7 +6,7 @@
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 14:51:54 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 18:56:23 by juspende         ###   ########.fr       */
+/*   Updated: 2018/03/21 19:00:47 by juspende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,42 +53,42 @@
 # endif
 
 # ifndef NO_ANT_NUMBER
-#  define NO_ANT_NUMBER -1
+#  define NO_ANT_NUMBER (-1)
 # endif
 
 # ifndef TOO_MANY_ANT
-#  define TOO_MANY_ANT -2
+#  define TOO_MANY_ANT (-2)
 # endif
 
 # ifndef NO_ANT
-#  define NO_ANT -3
+#  define NO_ANT (-3)
 # endif
 
 # ifndef INVALID_ROOM_NAME
-#  define INVALID_ROOM_NAME -4
+#  define INVALID_ROOM_NAME (-4)
 # endif
 
 # ifndef NO_POSITION
-#  define NO_POSITION -5
+#  define NO_POSITION (-5)
 # endif
 
 # ifndef WRONG_POSITION
-#  define WRONG_POSITION -6
+#  define WRONG_POSITION (-6)
 # endif
 
 # ifndef INVALID_COORD
-#  define INVALID_COORD -7
+#  define INVALID_COORD (-7)
 # endif
 
 # ifndef MALLOC_FAILED 
-#  define MALLOC_FAILED -8
+#  define MALLOC_FAILED (-8)
 # endif
 
 # ifndef NO_ROOM
-#  define NO_ROOM -9
+#  define NO_ROOM (-9)
 # endif
 
 extern int	lemin_parse(t_map *rooms, int *ants);
-int			push_rooms(char *op, t_map *rooms);
+extern int	push_rooms(char *op, t_map *rooms);
 
 #endif
