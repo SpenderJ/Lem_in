@@ -12,9 +12,21 @@
 
 #include "lemin.h"
 
-int	main(int ac, char *av[])
+static int	done(t_map *rooms, int ecode)
 {
-	(void)ac;
-	(void)av;
-	return (EXIT_SUCCESS);
+	ft_mapdtor(rooms, (t_dtor)ft_pfree, (t_dtor)lemin_roomdtor);
+	exit(ecode);
+}
+
+int			main(void)
+{
+	t_map		rooms;
+	uint32_t	ants;
+
+	ft_mapctor(&rooms, g_strhash, sizeof(char *), sizeof(t_room));
+	if (lemin_parse(&rooms, &ants))
+		return (done(&rooms, EXIT_FAILURE));
+	if (lemin_solve(&rooms, ants))
+		return (done(&rooms, EXIT_FAILURE));
+	return (done(&rooms, EXIT_SUCCESS));
 }

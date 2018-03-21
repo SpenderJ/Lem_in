@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,14 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#ifndef LEMIN_PARSER_H
+# define LEMIN_PARSER_H
 
 # include <stdlib.h>
 # include <unistd.h>
 
-# ifndef FD_OUT
-#  define FD_OUT 0
+# include "room.h"
+
+# ifndef FD_IN
+#  define FD_IN STDIN_FILENO
 # endif
 
 /* All these defines are made for the return value of the parsing function.
@@ -33,6 +35,6 @@
 #  define NO_ANT_NUMBER 1
 # endif
 
-int parsing(void);
+extern int	lemin_parse(t_map *rooms, uint32_t *ants);
 
 #endif
