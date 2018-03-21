@@ -22,6 +22,7 @@
 #  define FD_IN STDIN_FILENO
 # endif
 
+<<<<<<< HEAD
 # ifndef EXIT
 #  define EXIT 84
 # endif
@@ -35,6 +36,10 @@
 # endif
 
 /* All these defines are made for the return value of the parsing function.
+=======
+/*
+** All these defines are made for the return value of the parsing function.
+>>>>>>> 61fbee079ea89e89f7a63aa13a90623f179376a4
 ** 0 Mean the file is well formatted, otherwise an error is returned and these
 ** appropriate error message will be sent
 */
