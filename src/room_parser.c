@@ -6,7 +6,7 @@
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 17:58:19 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 19:59:58 by juspende         ###   ########.fr       */
+/*   Updated: 2018/03/21 20:06:44 by juspende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,8 @@ static int	start_end(char *op, t_room *room)
 		dprintf(2, "START PUSHED\n");
 		room->kind = ROOM_START;
 	}
-	dprintf(2, "maissss\n");
 	if ((ret = gnl(FD_IN, &op)) != 1)
-		dprintf(2, "ret = %d\n", ret);
-	dprintf(2, "AUOI\n");
+		dprintf(2, "Gnl return value >>> %d\n", ret);
 	return (0);
 }
 
