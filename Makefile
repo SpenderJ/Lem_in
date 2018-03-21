@@ -40,7 +40,8 @@ endif
 SRC_NAME = \
 	lemin.c \
 	parser.c \
-	room.c
+	room.c \
+	solve.c
 
 3TH = $(addprefix $(3TH_PATH)/, $(3TH_NAME))
 OBJ = $(addprefix $(OBJ_PATH)/, $(SRC_NAME:.c=.o))
