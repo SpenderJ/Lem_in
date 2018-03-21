@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   libft/ds.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 10:48:17 by juspende         ###   ########.fr       */
+/*   Created: 2017/11/07 09:52:30 by alucas-           #+#    #+#             */
+/*   Updated: 2017/11/15 18:51:38 by null             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
+#ifndef LIBFT_DS_H
+# define LIBFT_DS_H
 
-int	main(int ac, char *av[])
-{
-	(void)ac;
-	(void)av;
-	return (EXIT_SUCCESS);
-}
+# include "ds/deq.h"
+# include "ds/lst.h"
+# include "ds/map.h"
+# include "ds/sds.h"
+# include "ds/set.h"
+# include "ds/vec.h"
+
+#endif

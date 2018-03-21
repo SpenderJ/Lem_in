@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   io/vsnprintf.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 10:48:17 by juspende         ###   ########.fr       */
+/*   Created: 2018/02/25 00:42:42 by alucas-           #+#    #+#             */
+/*   Updated: 2018/02/25 00:42:42 by alucas-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
+#ifndef IO_VSNPRINTF_H
+# define IO_VSNPRINTF_H
 
-int	main(int ac, char *av[])
+# include "libft/io.h"
+
+typedef struct	s_cookie
 {
-	(void)ac;
-	(void)av;
-	return (EXIT_SUCCESS);
-}
+	char		*s;
+	size_t		n;
+}				t_cookie;
+
+#endif

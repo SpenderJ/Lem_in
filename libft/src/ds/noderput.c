@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ds/noderput.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 10:48:17 by juspende         ###   ########.fr       */
+/*   Created: 2017/11/07 09:52:33 by alucas-           #+#    #+#             */
+/*   Updated: 2017/11/07 09:53:34 by alucas-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
+#include "libft/ds.h"
 
-int	main(int ac, char *av[])
+t_node	*ft_noderput(t_node *node, t_node *new)
 {
-	(void)ac;
-	(void)av;
-	return (EXIT_SUCCESS);
+	return (ft_nodelink(new, node, node->next));
 }

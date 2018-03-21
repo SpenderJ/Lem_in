@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   io/asprintf.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 10:48:17 by juspende         ###   ########.fr       */
+/*   Created: 2018/02/25 00:42:42 by alucas-           #+#    #+#             */
+/*   Updated: 2018/02/25 00:42:42 by alucas-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
+#include "libft/io.h"
 
-int	main(int ac, char *av[])
+int	ft_asprintf(char **s, char const *fmt, ...)
 {
-	(void)ac;
-	(void)av;
-	return (EXIT_SUCCESS);
+	int		ret;
+	va_list	ap;
+
+	va_start(ap, fmt);
+	ret = ft_vasprintf(s, fmt, ap);
+	va_end(ap);
+	return (ret);
 }

@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   libft/mem.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 10:48:17 by juspende         ###   ########.fr       */
+/*   Created: 2017/11/07 09:52:30 by alucas-           #+#    #+#             */
+/*   Updated: 2017/11/17 09:57:12 by null             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
+#ifndef LIBFT_MEM_H
+# define LIBFT_MEM_H
 
-int	main(int ac, char *av[])
-{
-	(void)ac;
-	(void)av;
-	return (EXIT_SUCCESS);
-}
+# include "lib.h"
+
+extern void	*ft_calloc(size_t sz);
+extern void	*ft_malloc(size_t sz);
+extern void	*ft_realloc(void const *ptr, size_t psz, size_t sz);
+
+#endif

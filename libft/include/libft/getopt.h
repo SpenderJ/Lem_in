@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ush/env.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 10:48:17 by juspende         ###   ########.fr       */
+/*   Created: 2017/11/07 09:52:30 by cmalfroy          #+#    #+#             */
+/*   Updated: 2017/12/06 12:00:10 by alucas-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
+#ifndef LIBFT_GETOPT_H
+# define LIBFT_GETOPT_H
 
-int	main(int ac, char *av[])
-{
-	(void)ac;
-	(void)av;
-	return (EXIT_SUCCESS);
-}
+# include "str.h"
+# include "io.h"
+
+extern int		g_optind;
+extern char		*g_optarg;
+extern int		g_opterr;
+extern int		g_optopt;
+
+int				ft_getopt(int ac, char **av, const char *fmt);
+
+#endif

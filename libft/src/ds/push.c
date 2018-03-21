@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   push.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 10:48:17 by juspende         ###   ########.fr       */
+/*   Created: 2017/11/07 09:52:33 by alucas-           #+#    #+#             */
+/*   Updated: 2017/11/07 09:53:34 by alucas-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
+#include "libft/ds.h"
 
-int	main(int ac, char *av[])
+inline void	*ft_deqpush(t_deq *self)
 {
-	(void)ac;
-	(void)av;
-	return (EXIT_SUCCESS);
+	return (ft_deqnpush(self, 1));
+}
+
+inline char	*ft_sdspush(t_sds *self)
+{
+	return (ft_sdsnpush(self, 1));
+}
+
+inline void	*ft_vecpush(t_vec *self)
+{
+	return (ft_vecnpush(self, 1));
 }

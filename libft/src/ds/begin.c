@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   beg.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 10:48:17 by juspende         ###   ########.fr       */
+/*   Created: 2017/11/07 09:52:33 by alucas-           #+#    #+#             */
+/*   Updated: 2017/11/07 09:53:34 by alucas-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
+#include "libft/ds.h"
 
-int	main(int ac, char *av[])
+inline void	*ft_deqbeg(t_deq *self)
 {
-	(void)ac;
-	(void)av;
-	return (EXIT_SUCCESS);
+	return (self->buf + (self->cur * self->isz));
+}
+
+inline char	*ft_sdsbeg(t_sds *self)
+{
+	return (self->buf);
+}
+
+inline void	*ft_vecbeg(t_vec *self)
+{
+	return (self->buf);
 }

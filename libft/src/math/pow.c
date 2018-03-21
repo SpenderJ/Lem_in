@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_pow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 10:48:17 by juspende         ###   ########.fr       */
+/*   Created: 2017/11/07 09:52:30 by alucas-           #+#    #+#             */
+/*   Updated: 2017/11/18 17:19:30 by null             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
+#include "libft/math.h"
 
-int	main(int ac, char *av[])
+inline uint64_t	ft_pow(int64_t n, int16_t p)
 {
-	(void)ac;
-	(void)av;
-	return (EXIT_SUCCESS);
+	uint64_t	r;
+	int64_t		t;
+
+	r = 1;
+	t = n;
+	while (p)
+	{
+		if (p & 1)
+			r *= t;
+		t *= t;
+		p = p >> 1;
+	}
+	return (r);
 }

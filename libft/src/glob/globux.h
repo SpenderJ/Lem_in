@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   globux.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 10:48:17 by juspende         ###   ########.fr       */
+/*   Created: 2018/02/09 20:57:25 by mc                #+#    #+#             */
+/*   Updated: 2018/02/22 16:35:15 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lemin.h"
+#ifndef GLOBUX_H
+# define GLOBUX_H
 
-int	main(int ac, char *av[])
-{
-	(void)ac;
-	(void)av;
-	return (EXIT_SUCCESS);
-}
+# include "glob_climb_tree.h"
+# include "glob_util/glob_util.h"
+
+#endif
