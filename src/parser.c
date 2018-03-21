@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-static int			gnl(int const fd, char **line)
+static int				gnl(int const fd, char **line)
 {
 	static t_sds	c[OPEN_MAX];
 	char			b[FT_PAGE_SIZE + 1];
@@ -39,11 +39,8 @@ static int			gnl(int const fd, char **line)
 	return (1);
 }
 
-static int				is_commentary(char *str)
+static int				is_commentary(char const *str)
 {
-	int		i;
-
-	i = 0;
 	if (str && str[0] == '#' && str[1] != '#')
 		return (TRUE);
 	else
@@ -57,13 +54,11 @@ static int				is_ant(char *str)
 
 	i = -1;
 	while (str[++i])
-	{
 		if (str[i] > '9' || str[i] < '0')
 		{
 			free (str);
 			return (NO_ANT_NUMBER);
 		}
-	}
 	ants = ft_atoi(str);
 	if (ants == 0)
 	{
@@ -98,7 +93,7 @@ extern int				lemin_parse(t_map *rooms, int *ants)
 		if (is_commentary(op) == TRUE)
 			end = 0;
 		else if (push_rooms(op, rooms) == SUCCESS)
-			rooms++;
+			room++;
 		else if (room == 0 && (end = EXIT) == EXIT)
 			free(op);
 		else

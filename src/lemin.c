@@ -16,10 +16,10 @@ static int	usage(char *av[])
 {
 	ft_printf(
 		"usage: %s [-hvs] [-i <filename>] [-o <filename>]\n"
-		"  -h              Show this help.\n",
-		"  -s              Execute the program step by step (imply -v).\n",
-		"  -v              Output some verbose to the standard error output.\n",
-		"  -i <filename>   Use `filename` as input.\n",
+		"  -h              Show this help.\n"
+		"  -s              Execute the program step by step (imply -v).\n"
+		"  -v              Output some verbose to the standard error output.\n"
+		"  -i <filename>   Use `filename` as input.\n"
 		"  -o <filename>   Output standard output to `filename`.\n",
 		av[0]);
 	return (EXIT_FAILURE);
