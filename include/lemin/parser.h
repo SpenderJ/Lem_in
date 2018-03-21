@@ -6,7 +6,7 @@
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 14:51:54 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 16:55:15 by juspende         ###   ########.fr       */
+/*   Updated: 2018/03/21 18:56:23 by juspende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 #  define FD_IN STDIN_FILENO
 # endif
 
-<<<<<<< HEAD
 # ifndef EXIT
 #  define EXIT 84
 # endif
@@ -31,15 +30,20 @@
 #  define TRUE 0
 # endif
 
+# ifndef SUCCESS
+#  define SUCCESS 0
+# endif
+
 # ifndef FALSE
 #  define FALSE 1
 # endif
 
-/* All these defines are made for the return value of the parsing function.
-=======
+# ifndef COORD_LIMIT
+#  define COORD_LIMIT 500
+# endif
+
 /*
 ** All these defines are made for the return value of the parsing function.
->>>>>>> 61fbee079ea89e89f7a63aa13a90623f179376a4
 ** 0 Mean the file is well formatted, otherwise an error is returned and these
 ** appropriate error message will be sent
 */
@@ -60,6 +64,31 @@
 #  define NO_ANT -3
 # endif
 
-extern int	lemin_parse(t_map *rooms, uint32_t *ants);
+# ifndef INVALID_ROOM_NAME
+#  define INVALID_ROOM_NAME -4
+# endif
+
+# ifndef NO_POSITION
+#  define NO_POSITION -5
+# endif
+
+# ifndef WRONG_POSITION
+#  define WRONG_POSITION -6
+# endif
+
+# ifndef INVALID_COORD
+#  define INVALID_COORD -7
+# endif
+
+# ifndef MALLOC_FAILED 
+#  define MALLOC_FAILED -8
+# endif
+
+# ifndef NO_ROOM
+#  define NO_ROOM -9
+# endif
+
+extern int	lemin_parse(t_map *rooms, int *ants);
+int			push_rooms(char *op, t_map *rooms);
 
 #endif

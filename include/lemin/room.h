@@ -6,7 +6,7 @@
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 10:46:24 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 16:55:20 by juspende         ###   ########.fr       */
+/*   Updated: 2018/03/21 18:55:26 by juspende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ enum			e_room
 typedef struct	s_room
 {
 	uint8_t		kind;
-	char const	*id;
+	char		*id;
 	int			x;
 	int			y;
 	t_vec		links;
