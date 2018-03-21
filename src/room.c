@@ -46,8 +46,7 @@ int		lemin_linkadd(t_map *rooms, char const *from, char const *to)
 	if (!ft_mapget(rooms, (void *)to, &itt))
 		return (NOP);
 	roomf = (t_room *)rooms->vals + itf;
-	it = ft_vecbeg(&roomf->links);
-	if (it)
+	if ((it = ft_vecbeg(&roomf->links)))
 		while (it < (t_room **)ft_vecend(&roomf->links))
 		{
 			if (!ft_strcmp((*it)->id, roomf->id))

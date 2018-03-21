@@ -11,14 +11,18 @@
 /* ************************************************************************** */
 
 #include "lemin/solve.h"
+#include "lemin/lemin.h"
 
-int		dump(t_map *rooms, uint32_t ants)
+void	dump(t_map *rooms, int ants)
 {
+	(void)rooms;
+	(void)ants;
 	ft_printf("");
 }
 
-int		lemin_solve(t_map *rooms, uint32_t ants)
+int		lemin_solve(t_lemin *lemin, t_map *rooms, int ants)
 {
-
+	(void)lemin;
+	dump(rooms, ants);
 	return (YEP);
 }
