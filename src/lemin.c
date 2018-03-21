@@ -6,7 +6,7 @@
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 18:58:49 by juspende         ###   ########.fr       */
+/*   Updated: 2018/03/21 19:02:18 by juspende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int			main(int ac, char *av[])
 	ft_mapctor(&rooms, g_strhash, sizeof(char *), sizeof(t_room));
 	if (lemin_parse(&rooms, &ants))
 		return (done(&rooms, EXIT_FAILURE));
-	if (lemin_solve(&rooms, ants))
+	if (lemin_solve(&lemin, &rooms, ants))
 		return (done(&rooms, EXIT_FAILURE));
 	return (done(&rooms, EXIT_SUCCESS));
 }
