@@ -22,7 +22,8 @@
 #  define FD_IN STDIN_FILENO
 # endif
 
-/* All these defines are made for the return value of the parsing function.
+/*
+** All these defines are made for the return value of the parsing function.
 ** 0 Mean the file is well formatted, otherwise an error is returned and these
 ** appropriate error message will be sent
 */

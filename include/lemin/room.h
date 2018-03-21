@@ -31,9 +31,36 @@ typedef struct	s_room
 	t_vec		links;
 }				t_room;
 
-extern int	lemin_roomctor(t_room *room);
-extern void	lemin_roomdtor(t_room *room);
-extern int	lemin_roomadd(t_map *rooms, t_room room);
-extern int	lemin_linkadd(t_map *rooms, char const *from, char const *to);
+/*
+** Construct a `room`.
+** @param room   The room to initialize
+*/
+extern void		lemin_roomctor(t_room *room);
+
+/*
+** Deconstruct a `room`.
+** Does not free the room id, it will be freed on the rooms hash map
+** deconstruction.
+** @param room   The room to destroy
+*/
+extern void		lemin_roomdtor(t_room *room);
+
+/*
+** Try to add a `room` to the `rooms` hash map.
+** @param rooms  The rooms hash map
+** @param room   The room to add
+** @return       `NOP`(1) if already exists, `YEP`(0) otherwise
+*/
+extern int		lemin_roomadd(t_map *rooms, t_room room);
+
+/*
+** Try to link two rooms using there ids.
+** @param rooms  The rooms hash map
+** @param from   The from room id to link
+** @param to     The to room id to link
+** @return       `NOP`(1) if already one the ids `from` or `to` does not exists
+**               in the `rooms`, `NOP`(1) on duplicate links, `YEP`(0) otherwise
+*/
+extern int		lemin_linkadd(t_map *rooms, char const *from, char const *to);
 
 #endif
