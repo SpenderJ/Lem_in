@@ -22,7 +22,7 @@
 #define ERR7 "Invalid edge `%s`\n"
 #define ERR8 "Edge unknowns rooms `%s`\n"
 #define ERR9 "Duplicate edge `%s`\n"
-#define ERRA "Invalid room `%s`\n"
+#define ERRA "Invalid room identifier `%s`\n"
 #define ERRB "Duplicate room identifier `%s`\n"
 #define ERRC "Expected ants got `%s`\n"
 #define ERRD "Invalid ants `%s`\n"
@@ -97,7 +97,7 @@ static int	parsevertex(t_lemin *l, char **op, t_map *g)
 		return (NOP);
 	while ((*op)[i] != '\0' && ft_isalnum((*op)[i]))
 		++i;
-	if (!i || (*op)[i] == '\0')
+	if (!i || (*op)[i] == '\0' || !ft_isalnum((*op)[i - 1]))
 		return (lemin_error(l, ERRA, *op));
 	if ((v.id = malloc(sizeof(char) * (i + 1))) == NULL)
 		return (WUT);
