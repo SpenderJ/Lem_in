@@ -6,7 +6,7 @@
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 14:53:12 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 20:04:17 by juspende         ###   ########.fr       */
+/*   Updated: 2018/03/22 14:11:36 by juspende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #define ERRB "Duplicate room identifier `%s`\n"
 #define ERRC "Expected ants got `%s`\n"
 #define ERRD "Invalid ants `%s`\n"
+#define ERRE "Invalid Name `%s`\n"
 
 static int	parsexy(t_lemin *lemin, char *op, int i, t_vertex *v)
 {
@@ -93,7 +94,7 @@ static int	parsevertex(t_lemin *l, char **op, t_map *g)
 	if (*op && !ft_strncmp(*op, "##", 2) && parseattr(l, op, &v))
 		return (OUF);
 	if (!*op || **op == ' ' || **op == '\0' || **op == 'L' || **op == '#')
-		return (NOP);
+		return (lemin_error(l, ERRE, *op));
 	while ((*op)[i] != '\0' && ft_isalnum((*op)[i]))
 		++i;
 	if (!i || (*op)[i] == '\0' || !ft_isalnum((*op)[i - 1]))
@@ -128,7 +129,7 @@ int			lemin_parse(t_lemin *lemin, t_map *graph, int *ants)
 		ret = 0;
 		break ;
 	}
-	if ((*ants = ft_atoi(op)) < 0 || errno)
+	if (!op || (*ants = ft_atoi(op)) < 0 || errno)
 		return (ft_free(op, lemin_error(lemin, ERRD, op)));
 	while (!ret && (ret = ft_getln(lemin->input, &op)))
 		if (ret < 0)
