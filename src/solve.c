@@ -6,73 +6,73 @@
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 15:11:40 by juspende         ###   ########.fr       */
+/*   Updated: 2018/03/21 15:11:40 by alucas-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin/solve.h"
 #include "lemin/lemin.h"
 
-static void	dumprooms(t_map *rooms)
+static void	dumpvertex(t_lemin *lemin, t_map *graph)
 {
-	size_t it;
-	t_room *room;
-	t_room **link;
+	size_t		it;
+	t_vertex	*v;
+	t_vertex	**edge;
 
 	it = 0;
-	while (it < rooms->cap)
-		if (!(rooms->bucks[it++] & BUCKET_BOTH))
+	while (it < graph->cap)
+		if (!(graph->bucks[it++] & BUCKET_BOTH))
 		{
-			if ((room = (t_room *)rooms->vals + it - 1)->kind == ROOM_NONE)
-				ft_printf("%s %d %d\n", room->id, room->x, room->y);
+			if ((v = (t_vertex *)graph->vals + it - 1)->kind == VERTEX_NONE)
+				ft_dprintf(lemin->output, "%s %d %d\n", v->id, v->x, v->y);
 		}
 	it = 0;
-	while (it < rooms->cap)
-		if (!(rooms->bucks[it++] & BUCKET_BOTH))
+	while (it < graph->cap)
+		if (!(graph->bucks[it++] & BUCKET_BOTH))
 		{
-			room = (t_room *)rooms->vals + it - 1;
-			if ((link = ft_vecbeg(&room->links)))
-				while (link < (t_room **)ft_vecend(&room->links))
+			v = (t_vertex *)graph->vals + it - 1;
+			if ((edge = ft_vecbeg(&v->edges)))
+				while (edge < (t_vertex **)ft_vecend(&v->edges))
 				{
-					ft_printf("%s-%s\n", room->id, (*link)->id);
-					++link;
+					ft_dprintf(lemin->output, "%s-%s\n", v->id, (*edge)->id);
+					++edge;
 				}
 		}
 }
 
-static void	doublelink(t_map *rooms)
+static void	doublelink(t_map *graph)
 {
-	size_t it;
-	t_room *room;
-	t_room **link;
+	size_t		it;
+	t_vertex	*v;
+	t_vertex	**edge;
 
 	it = 0;
-	while (it < rooms->cap)
-		if (!(rooms->bucks[it++] & BUCKET_BOTH))
+	while (it < graph->cap)
+		if (!(graph->bucks[it++] & BUCKET_BOTH))
 		{
-			room = (t_room *)rooms->vals + it - 1;
-			if ((link = ft_vecbeg(&room->links)))
-				while (link < (t_room **)ft_vecend(&room->links))
+			v = (t_vertex *)graph->vals + it - 1;
+			if ((edge = ft_vecbeg(&v->edges)))
+				while (edge < (t_vertex **)ft_vecend(&v->edges))
 				{
-					if (!lemin_linked(*link, room))
-						*(t_room **)ft_vecpush(&(*link)->links) = room;
+					if (!lemin_edged(*edge, v))
+						*(t_vertex **)ft_vecpush(&(*edge)->edges) = v;
 				}
 		}
 }
 
-static int	dump(t_lemin *lemin, t_map *rooms, int ants)
+static int	dump(t_lemin *lemin, t_map *graph, int ants)
 {
-	size_t it;
-	t_room *room;
+	size_t		it;
+	t_vertex	*v;
 
 	it = 0;
-	while (it < rooms->cap)
-		if (!(rooms->bucks[it++] & BUCKET_BOTH))
+	while (it < graph->cap)
+		if (!(graph->bucks[it++] & BUCKET_BOTH))
 		{
-			if ((room = (t_room *)rooms->vals + it - 1)->kind == ROOM_START)
-				lemin->start = room;
-			else if (room->kind == ROOM_END)
-				lemin->end = room;
+			if ((v = (t_vertex *)graph->vals + it - 1)->kind == VERTEX_START)
+				lemin->start = v; //todo: check for duplicate start
+			else if (v->kind == VERTEX_END)
+				lemin->end = v; //todo: check for duplicate end
 		}
 	if (!lemin->start || !lemin->end)
 	{
@@ -80,17 +80,17 @@ static int	dump(t_lemin *lemin, t_map *rooms, int ants)
 			ft_fprintf(g_stderr, "%s: No start/end rooms\n.", lemin->prg);
 		return (NOP);
 	}
-	ft_printf("%d\n##start\n%s %d %d\n##end\n%s %d %d\n",
+	ft_dprintf(lemin->output, "%d\n##start\n%s %d %d\n##end\n%s %d %d\n",
 		ants, lemin->start->id, lemin->start->x, lemin->start->y,
 		lemin->end->id, lemin->end->x, lemin->end->y);
-	dumprooms(rooms);
-	doublelink(rooms);
+	dumpvertex(lemin, graph);
+	doublelink(graph);
 	return (YEP);
 }
 
-int		lemin_solve(t_lemin *lemin, t_map *rooms, int ants)
+int		lemin_solve(t_lemin *lemin, t_map *graph, int ants)
 {
-	if (dump(lemin, rooms, ants))
+	if (dump(lemin, graph, ants))
 		return (NOP);
 	return (YEP);
 }

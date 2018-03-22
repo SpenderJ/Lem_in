@@ -53,6 +53,7 @@ extern int		ft_szret(int no, char const *msg, ...);
 
 extern int		ft_pfree(void **pptr);
 extern void		ft_clean(void *ptr);
+extern int		ft_free(void *ptr, int code);
 
 extern char		*ft_join(char const *s1, char const *s2, char n);
 extern char		*ft_getenv(char **env, char const *var);

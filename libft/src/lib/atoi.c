@@ -25,10 +25,15 @@ inline int		ft_atoi(char const *str)
 		neg = ++str > 0;
 	else if (*str == '+')
 		++str;
+	if (!ft_isdigit(*str))
+		return (ft_error((int)ret, EINVAL));
 	while (*str)
-		if (!ft_isdigit(*str) ||
-			(ret = ret * 10 + *str++ - '0') > (neg ? 1L + INT_MAX : INT_MAX))
+	{
+		if (!ft_isdigit(*str))
+			break ;
+		if ((ret = ret * 10 + *str++ - '0') > (neg ? 1L + INT_MAX : INT_MAX))
 			return (ft_error((int)ret, EOVERFLOW));
+	}
 	return ((int)ret * (neg ? -1 : 1));
 }
 

@@ -6,7 +6,7 @@
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 19:32:22 by juspende         ###   ########.fr       */
+/*   Updated: 2018/03/21 19:32:22 by alucas-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,14 @@ static int	usage(char *av[])
 }
 
 
-static int	done(t_map *rooms, int ecode)
+static int	finalize(t_lemin *lemin, t_map *rooms, int ecode)
 {
-	ft_mapdtor(rooms, (t_dtor)ft_pfree, (t_dtor)lemin_roomdtor);
-	exit(ecode);
+	if (lemin->input != STDIN_FILENO)
+		close(lemin->input);
+	if (lemin->output != STDOUT_FILENO)
+		close(lemin->output);
+	ft_mapdtor(rooms, (t_dtor)ft_pfree, (t_dtor)lemin_vertexdtor);
+	return (ecode);
 }
 
 static int	tryopen(t_lemin *lemin, char const *filename, int flags, int *out)
@@ -58,7 +62,7 @@ static int	opt(t_lemin *l, int ac, char *av[])
 		else if (opt == 'v')
 			l->options |= OPT_VERB;
 		else if (opt == 's')
-			l->options |= OPT_STEP;
+			l->options |= (OPT_STEP | OPT_VERB);
 		else if (opt == 'i')
 		{
 			if (tryopen(l, g_optarg, O_RDONLY, &l->input))
@@ -81,17 +85,18 @@ int			main(int ac, char *av[])
 	int			ants;
 
 	ft_bzero(&lemin, sizeof(t_lemin));
+	ft_mapctor(&rooms, g_strhash, sizeof(char *), sizeof(t_vertex));
+	lemin.input = STDIN_FILENO;
+	lemin.output = STDOUT_FILENO;
 	if (opt(&lemin, ac, av))
 	{
 		if ((g_optind < ac) && (lemin.options & OPT_VERB))
 			ft_fprintf(g_stderr, "%s: %s: Unexpected argument.\n",
 				lemin.prg, av[g_optind]);
+		finalize(&lemin, &rooms, EXIT_FAILURE);
 		return (usage(av));
 	}
-	ft_mapctor(&rooms, g_strhash, sizeof(char *), sizeof(t_room));
-	if (lemin_parse(&rooms, &ants))
-		return (done(&rooms, EXIT_FAILURE));
-	if (lemin_solve(&lemin, &rooms, ants))
-		return (done(&rooms, EXIT_FAILURE));
-	return (done(&rooms, EXIT_SUCCESS));
+	if (lemin_parse(&lemin, &rooms, &ants) || lemin_solve(&lemin, &rooms, ants))
+		return (finalize(&lemin, &rooms, EXIT_FAILURE));
+	return (finalize(&lemin, &rooms, EXIT_SUCCESS));
 }

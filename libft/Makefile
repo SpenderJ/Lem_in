@@ -75,7 +75,7 @@ SRC_NAME = \
   str/strlen.c str/strmchr.c str/strncat.c str/strnchr.c str/strncmp.c \
   str/strncpy.c str/strndup.c str/strnlen.c str/strnstr.c str/strrchr.c \
   str/strscpy.c str/strspn.c str/strstr.c str/mempcpy.c str/stris.c \
-  getopt.c \
+  getopt.c gnl.c \
   sort/ft_shellsort.c
 
 3TH = $(addprefix $(3TH_PATH)/, $(3TH_NAME))

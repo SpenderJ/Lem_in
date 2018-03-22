@@ -38,11 +38,11 @@ LIB_NAME = $(LIBS)
 endif
 3TH_NAME = libft
 SRC_NAME = \
+	error.c \
 	lemin.c \
 	parser.c \
-	room.c \
-	room_parser.c \
-	solve.c
+	solve.c \
+	vertex.c
 
 3TH = $(addprefix $(3TH_PATH)/, $(3TH_NAME))
 OBJ = $(addprefix $(OBJ_PATH)/, $(SRC_NAME:.c=.o))

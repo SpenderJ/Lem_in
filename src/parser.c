@@ -12,99 +12,130 @@
 
 #include "lemin.h"
 
-static int				gnl(int const fd, char **line)
-{
-	static t_sds	c[OPEN_MAX];
-	char			b[FT_PAGE_SIZE + 1];
-	ssize_t			i;
-	char			*eol;
+#define ERR0 "Missing x coord in `%s`\n"
+#define ERR1 "Invalid x coord `%s`\n"
+#define ERR2 "Missing y coord in `%s`\n"
+#define ERR3 "Invalid y coord `%s`\n"
+#define ERR4 "%s: Unknown attribute\n"
+#define ERR5 "Missing line after `%s` attribute\n"
+#define ERR6 "Expected `-` in edge `%s`\n"
+#define ERR7 "Invalid edge `%s`\n"
+#define ERR8 "Edge unknowns rooms `%s`\n"
+#define ERR9 "Duplicate edge `%s`\n"
+#define ERRA "Invalid room `%s`\n"
+#define ERRB "Duplicate room identifier `%s`\n"
+#define ERRC "Expected ants got `%s`\n"
+#define ERRD "Invalid ants `%s`\n"
 
-	eol = NULL;
-	if (line && *line)
-		free(*line);
-	if (!line || fd < 0 || fd > OPEN_MAX)
-		return (-1);
-	while ((!c[fd].len || (eol || !(eol = ft_strchr(c[fd].buf, '\n')))))
-		if ((i = read(fd, b, FT_PAGE_SIZE)) == 0)
-			break ;
-		else if (i == -1 || !(eol = ft_sdsmpush(c + fd, b, (size_t)i)))
-			return (-1);
-		else if ((eol = ft_strchr(eol, '\n')))
-			break ;
-	if (!(i = eol ? (eol - c[fd].buf + 1) : (ssize_t)c[fd].len))
-		return (ft_pfree((void **)&c[fd].buf));
-	if (!(*line = malloc((size_t)(i + (eol ? 1 : 0)) * sizeof(char))))
-		return (-1);
-	(*line)[ft_sdsnsht(c + fd, (size_t)i, *line) - (eol ? 1 : 0)] = '\0';
-	return (1);
+static int	parsexy(t_lemin *lemin, char *op, int i, t_vertex *v)
+{
+	errno = 0;
+	if (op[i++] == '-')
+		return (NOP);
+	while (op[i] && ft_isspace(op[i]))
+		++i;
+	if (!ft_isdigit(op[i]))
+		return (lemin_error(lemin, ERR0, op));
+	if ((v->x = ft_atoi(op + i)) < 0 || errno || v->x > COORD_LIMIT)
+		return (lemin_error(lemin, ERR1, op + i));
+	while (op[i] && ft_isdigit(op[i]))
+		++i;
+	while (op[i] && ft_isspace(op[i]))
+		++i;
+	if (!ft_isdigit(op[i]))
+		return (lemin_error(lemin, ERR2, op));
+	if ((v->y = ft_atoi(op + i)) < 0 || errno || v->x > COORD_LIMIT)
+		return (lemin_error(lemin, ERR3, op + i));
+	return (YEP);
 }
 
-static int				is_commentary(char const *str)
+static int	parseattr(t_lemin *lemin, char **op, t_vertex *vertex)
 {
-	if (str && str[0] == '#' && str[1] != '#')
-		return (TRUE);
+	if (!ft_strcmp((*op) + 2, "end"))
+		vertex->kind = VERTEX_END;
+	else if (!ft_strcmp((*op) + 2, "start"))
+		vertex->kind = VERTEX_START;
 	else
-		return (FALSE);
+		return (lemin_error(lemin, ERR4, op));
+	if (ft_getln(lemin->input, op) != 1)
+		return (lemin_error(lemin, ERR5, op));
+	return (YEP);
 }
 
-static int				is_ant(char *str)
+static int	parseedge(t_lemin *lemin, char *op, t_map *graph, char *from)
 {
 	int		i;
-	int		ants;
+	size_t	len;
 
-	i = -1;
-	while (str[++i])
-		if (str[i] > '9' || str[i] < '0')
-		{
-			free (str);
-			return (NO_ANT_NUMBER);
-		}
-	ants = ft_atoi(str);
-	if (ants == 0)
+	i = 0;
+ 	while (op[i] && op[i] != '-')
+		++i;
+	if (op[i] != '-')
 	{
-		free(str);
-		return (NO_ANT);
+		free(from);
+		return (lemin_error(lemin, ERR6, op));
 	}
-	if (errno)
-	{
-		free(str);
-		return (TOO_MANY_ANT);
-	}
-	return (ants);
+	if (!(len = ft_strlen(op + ++i)) || *(op + i + len) ||
+		!ft_stris(op + i, ft_isalnum))
+		return (ft_free(from, lemin_error(lemin, ERR7, op)));
+	if ((i = lemin_edgeadd(graph, from, op + i)))
+		return (ft_free(from, lemin_error(lemin, i == 1 ? ERR8 : ERR9, op)));
+	return (YEP);
 }
 
-extern int				lemin_parse(t_map *rooms, int *ants)
+static int	parsevertex(t_lemin *l, char **op, t_map *g)
+{
+	int			i;
+	t_vertex	v;
+
+	i = 0;
+	lemin_vertexctor(&v);
+	if (*op && !ft_strncmp(*op, "##", 2) && parseattr(l, op, &v))
+		return (OUF);
+	if (!*op || **op == ' ' || **op == '\0' || **op == 'L' || **op == '#')
+		return (NOP);
+	while ((*op)[i] != '\0' && ft_isalnum((*op)[i]))
+		++i;
+	if (!i || (*op)[i] == '\0')
+		return (lemin_error(l, ERRA, *op));
+	if ((v.id = malloc(sizeof(char) * (i + 1))) == NULL)
+		return (WUT);
+	i = -1;
+	while ((*op)[++i] != '\0' && ft_isalnum((*op)[i]))
+		v.id[i] = (*op)[i];
+	v.id[i] = '\0';
+	if ((i = parsexy(l, *op, i, &v)))
+		return (i == OUF ? ft_free(v.id, OUF) : parseedge(l, *op, g, v.id));
+	if (lemin_vertexadd(g, v))
+		return (ft_free(v.id, lemin_error(l, ERRB, *op)));
+	return (YEP);
+}
+
+int			lemin_parse(t_lemin *lemin, t_map *graph, int *ants)
 {
 	char	*op;
-	int		end;
-	int		room;
 	int		ret;
 
 	op = NULL;
-	end = 0;
-	room = 0;
-	*ants = -1;
-	while (end != EXIT && (ret = gnl(FD_IN, &op)) == 1)
-		if (is_commentary(op) == FALSE)
-			end = EXIT;
-	dprintf(2, "Hey %d\n", ret);
-	if ((*ants = is_ant(op)) < 0 || ret != 1)
-		return (*ants); // ERROR HANDLING TO DO
-	end = 0;
-	while ((ret = gnl(FD_IN, &op)) == 1 && end != EXIT)
+	while ((ret = ft_getln(lemin->input, &op)))
 	{
-		dprintf(2, "Yop\n");
-		if (is_commentary(op) == TRUE)
-			end = 0;
-		else if (push_rooms(op, rooms) == SUCCESS)
-			room++;
-		else if (room == 0 && (end = EXIT) == EXIT)
-			free(op);
-		else
-			end = EXIT;
-		dprintf(2, "room pushed\n");
+		if (ret < 0)
+			return (lemin_error(lemin, "%m\n"));
+		else if (op && *op == '#' && *(op + 1) != '#')
+			continue ;
+		else if (!op || !ft_isdigit(*op))
+			return (ft_free(op, lemin_error(lemin, ERRC, op)));
+		ret = 0;
+		break ;
 	}
-	if (room == 0 || ret != 1)
-		return (NO_ROOM);
-	return (SUCCESS);
+	if ((*ants = ft_atoi(op)) < 0 || errno)
+		return (ft_free(op, lemin_error(lemin, ERRD, op)));
+	while (!ret && (ret = ft_getln(lemin->input, &op)))
+		if (ret < 0)
+			return (lemin_error(lemin, "%m\n"));
+		else if (op && *op == '#' && *(op + 1) != '#')
+			continue ;
+		else if ((ret = parsevertex(lemin, &op, graph)) && ret != NOP)
+			return (ft_free(op, ret));
+	return (graph->len > 0 ? YEP : NOP);
 }

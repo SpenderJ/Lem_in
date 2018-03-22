@@ -16,3 +16,9 @@ inline void	ft_clean(void *ptr)
 {
 	ft_pfree((void **)ptr);
 }
+
+inline int	ft_free(void *ptr, int code)
+{
+	free(ptr);
+	return (code);
+}

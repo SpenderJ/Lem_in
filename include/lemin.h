@@ -13,10 +13,9 @@
 #ifndef LEMIN_H
 # define LEMIN_H
 
-# include <stdio.h>
 # include "lemin/lemin.h"
 # include "lemin/parser.h"
-# include "lemin/room.h"
+# include "lemin/vertex.h"
 # include "lemin/solve.h"
 
 #endif

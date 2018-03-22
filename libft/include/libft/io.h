@@ -59,6 +59,7 @@ extern t_stream	*g_stderr;
 
 extern ssize_t	ft_read(int fd, void *buf, size_t sz);
 extern ssize_t	ft_write(int fd, void const *buf, size_t sz);
+extern int		ft_getln(int const fd, char **line);
 
 extern t_stream	*ft_fopen(char const *filename, int flags, char *buf, size_t s);
 extern int		ft_fclose(t_stream *s);
