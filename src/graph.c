@@ -39,7 +39,7 @@ static void	dumpvertex(t_lemin *lemin, t_map *graph)
 		}
 }
 
-int			lemin_dump(t_lemin *lemin, t_map *graph, int ants)
+static int	check(t_lemin *l, t_map *graph)
 {
 	size_t		it;
 	t_vertex	*v;
@@ -49,16 +49,27 @@ int			lemin_dump(t_lemin *lemin, t_map *graph, int ants)
 		if (!(graph->bucks[it++] & BUCKET_BOTH))
 		{
 			if ((v = (t_vertex *)graph->vals + it - 1)->kind == VERTEX_START)
-				lemin->start = v; //todo: check for duplicate start
+			{
+				if (l->start)
+					return (lemin_error(l, "Duplicate start `%s`\n", v->id));
+				l->start = v;
+			}
 			else if (v->kind == VERTEX_END)
-				lemin->end = v; //todo: check for duplicate end
+			{
+				if (l->end)
+					return (lemin_error(l, "Duplicate end `%s`\n", v->id));
+				l->end = v;
+			}
 		}
-	if (!lemin->start || !lemin->end)
-	{
-		if (lemin->options & OPT_VERB)
-			ft_fprintf(g_stderr, "%s: No start/end rooms\n", lemin->prg);
+	if (!l->start || !l->end)
+		return (lemin_error(l, "No start/end rooms\n"));
+	return (YEP);
+}
+
+int			lemin_dump(t_lemin *lemin, t_map *graph, int ants)
+{
+	if (check(lemin, graph))
 		return (NOP);
-	}
 	ft_dprintf(lemin->output, "%d\n##start\n%s %d %d\n##end\n%s %d %d\n",
 		ants, lemin->start->id, lemin->start->x, lemin->start->y,
 		lemin->end->id, lemin->end->x, lemin->end->y);
