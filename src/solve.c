@@ -96,6 +96,8 @@ static void	solve(t_lemin *lemin, int ants)
 		return ;
 	edge = (t_vertex **)ft_vecbeg(&lemin->start->edges) - 1;
 	end = ft_vecend(&lemin->start->edges);
+	if (lemin->options & OPT_VERB)
+		ft_dprintf(lemin->output, "ants: %d/%d\n", ants, lemin->ants);
 	if (ants < lemin->ants)
 	{
 		lemin->start->occupied = ++ants;
@@ -106,6 +108,8 @@ static void	solve(t_lemin *lemin, int ants)
 		while (++edge < end)
 			move(lemin, *edge, lemin->start);
 	}
+	if (lemin->options & OPT_STEP && isatty(STDIN_FILENO))
+		read(STDIN_FILENO, NULL, 1);
 	ft_dprintf(lemin->output, "\n");
 	solve(lemin, ants);
 }
