@@ -94,7 +94,7 @@ static int	parsevertex(t_lemin *l, char **op, t_map *g)
 	if (*op && !ft_strncmp(*op, "##", 2) && parseattr(l, op, &v))
 		return (OUF);
 	if (!*op || **op == ' ' || **op == '\0' || **op == 'L' || **op == '#')
-		return (lemin_error(l, ERRE, *op));
+		return (**op == '\n' || !**op ? NOP : lemin_error(l, ERRE, *op));
 	while ((*op)[i] != '\0' && ft_isalnum((*op)[i]))
 		++i;
 	if (!i || (*op)[i] == '\0' || !ft_isalnum((*op)[i - 1]))

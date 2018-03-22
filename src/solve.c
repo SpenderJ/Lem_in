@@ -75,8 +75,8 @@ void			lemin_visit(t_lemin *lemin, t_vertex *v)
 
 void			lemin_solve(t_lemin *lemin, t_map *graph, int ants)
 {
-	t_vertex	**edge;
-	t_vertex	**end;
+	t_vertex **edge;
+	t_vertex **end;
 
 	if (lemin->end->occupied == lemin->ants)
 		return ;
