@@ -137,5 +137,5 @@ int			lemin_parse(t_lemin *lemin, t_map *graph, int *ants)
 			continue ;
 		else if ((ret = parsevertex(lemin, &op, graph)) && ret != NOP)
 			return (ft_free(op, ret));
-	return (graph->len > 0 ? YEP : NOP);
+	return (ft_free(op, graph->len > 0 ? YEP : NOP));
 }

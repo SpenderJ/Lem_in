@@ -23,6 +23,7 @@ int	ft_getln(int const fd, char **line)
 	eol = NULL;
 	if (line && *line)
 		free(*line);
+	*line = NULL;
 	if (!line || fd < 0 || fd > OPEN_MAX)
 		return (-1);
 	while ((!c[fd].len || (eol || !(eol = ft_strchr(c[fd].buf, '\n')))))
