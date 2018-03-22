@@ -38,11 +38,10 @@ LIB_NAME = $(LIBS)
 endif
 3TH_NAME = libft
 SRC_NAME = \
-	error.c \
-	graph.c \
 	lemin.c \
 	parser.c \
 	solve.c \
+	utils.c \
 	vertex.c
 
 3TH = $(addprefix $(3TH_PATH)/, $(3TH_NAME))

@@ -39,12 +39,10 @@ static int	tryopen(t_lemin *lemin, char const *filename, int flags, int *out)
 {
 	int fd;
 
+	if (*out > 2)
+		close(*out);
 	if ((fd = open(filename, flags, 0666)) < 0)
-	{
-		if (lemin->options & OPT_VERB)
-			ft_fprintf(g_stderr, "%s: %s: %m\n", lemin->prg, filename);
-		return (WUT);
-	}
+		return (lemin_error(lemin, "%s: %m\n", filename));
 	*out = fd;
 	return (YEP);
 }
@@ -90,8 +88,7 @@ int			main(int ac, char *av[])
 	if (opt(&lemin, ac, av))
 	{
 		if ((g_optind < ac) && (lemin.options & OPT_VERB))
-			ft_fprintf(g_stderr, "%s: %s: Unexpected argument.\n",
-				lemin.prg, av[g_optind]);
+			lemin_error(&lemin, "%s: Unexpected argument.\n", av[g_optind]);
 		finalize(&lemin, &rooms, EXIT_FAILURE);
 		return (usage(av));
 	}
