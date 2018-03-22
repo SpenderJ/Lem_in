@@ -16,7 +16,6 @@
 #define ERR1 "Invalid x coord `%s`\n"
 #define ERR2 "Missing y coord in `%s`\n"
 #define ERR3 "Invalid y coord `%s`\n"
-#define ERR4 "%s: Unknown attribute\n"
 #define ERR5 "Missing line after `%s` attribute\n"
 #define ERR6 "Expected `-` in edge `%s`\n"
 #define ERR7 "Invalid edge `%s`\n"
@@ -55,8 +54,6 @@ static int	parseattr(t_lemin *lemin, char **op, t_vertex *vertex)
 		vertex->kind = VERTEX_END;
 	else if (!ft_strcmp((*op) + 2, "start"))
 		vertex->kind = VERTEX_START;
-	else
-		return (lemin_error(lemin, ERR4, op));
 	if (ft_getln(lemin->input, op) != 1)
 		return (lemin_error(lemin, ERR5, op));
 	return (YEP);
