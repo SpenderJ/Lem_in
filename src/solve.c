@@ -56,6 +56,7 @@ static void	doublelink(t_map *graph)
 				{
 					if (!lemin_edged(*edge, v))
 						*(t_vertex **)ft_vecpush(&(*edge)->edges) = v;
+					++edge;
 				}
 		}
 }

@@ -80,6 +80,7 @@ static int	parseedge(t_lemin *lemin, char *op, t_map *graph, char *from)
 		return (ft_free(from, lemin_error(lemin, ERR7, op)));
 	if ((i = lemin_edgeadd(graph, from, op + i)))
 		return (ft_free(from, lemin_error(lemin, i == 1 ? ERR8 : ERR9, op)));
+	free(from);
 	return (YEP);
 }
 
