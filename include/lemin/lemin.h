@@ -24,10 +24,12 @@ typedef struct	s_lemin
 	int			input;
 	int			output;
 	int			options;
+	int			ants;
 	t_vertex	*start;
 	t_vertex	*end;
 }				t_lemin;
 
-extern int	lemin_error(t_lemin *lemin, char const *fmt, ...);
+extern int		lemin_error(t_lemin *lemin, char const *fmt, ...);
+extern int		lemin_dump(t_lemin *lemin, t_map *graph, int ants);
 
 #endif

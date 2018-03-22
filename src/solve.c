@@ -13,34 +13,27 @@
 #include "lemin/solve.h"
 #include "lemin/lemin.h"
 
-static void	dumpvertex(t_lemin *lemin, t_map *graph)
+static void	updatedist(t_lemin *lemin, size_t dist, t_vertex *v, t_vertex *prev)
 {
-	size_t		it;
-	t_vertex	*v;
-	t_vertex	**edge;
+	t_vertex **edge;
+	t_vertex **end;
 
-	it = 0;
-	while (it < graph->cap)
-		if (!(graph->bucks[it++] & BUCKET_BOTH))
-		{
-			if ((v = (t_vertex *)graph->vals + it - 1)->kind == VERTEX_NONE)
-				ft_dprintf(lemin->output, "%s %d %d\n", v->id, v->x, v->y);
-		}
-	it = 0;
-	while (it < graph->cap)
-		if (!(graph->bucks[it++] & BUCKET_BOTH))
-		{
-			v = (t_vertex *)graph->vals + it - 1;
-			if ((edge = ft_vecbeg(&v->edges)))
-				while (edge < (t_vertex **)ft_vecend(&v->edges))
-				{
-					ft_dprintf(lemin->output, "%s-%s\n", v->id, (*edge)->id);
-					++edge;
-				}
-		}
+	if (dist > 500 || !(edge = ft_vecbeg(&v->edges)))
+		return ;
+	if (v->dist > dist)
+		v->dist = dist;
+	else
+		return ;
+	end = ft_vecend(&v->edges);
+	while (edge < end)
+	{
+		if (!prev || *edge != prev)
+			updatedist(lemin, dist + 1, *edge, v);
+		++edge;
+	}
 }
 
-static void	doublelink(t_map *graph)
+static int	prepare(t_lemin *lemin, t_map *graph)
 {
 	size_t		it;
 	t_vertex	*v;
@@ -59,39 +52,73 @@ static void	doublelink(t_map *graph)
 					++edge;
 				}
 		}
-}
-
-static int	dump(t_lemin *lemin, t_map *graph, int ants)
-{
-	size_t		it;
-	t_vertex	*v;
-
-	it = 0;
-	while (it < graph->cap)
-		if (!(graph->bucks[it++] & BUCKET_BOTH))
-		{
-			if ((v = (t_vertex *)graph->vals + it - 1)->kind == VERTEX_START)
-				lemin->start = v; //todo: check for duplicate start
-			else if (v->kind == VERTEX_END)
-				lemin->end = v; //todo: check for duplicate end
-		}
-	if (!lemin->start || !lemin->end)
-	{
-		if (lemin->options & OPT_VERB)
-			ft_fprintf(g_stderr, "%s: No start/end rooms\n.", lemin->prg);
-		return (NOP);
-	}
-	ft_dprintf(lemin->output, "%d\n##start\n%s %d %d\n##end\n%s %d %d\n",
-		ants, lemin->start->id, lemin->start->x, lemin->start->y,
-		lemin->end->id, lemin->end->x, lemin->end->y);
-	dumpvertex(lemin, graph);
-	doublelink(graph);
+	updatedist(lemin, 0, lemin->end, NULL);
+	if (lemin->start->dist == UINT32_MAX || lemin->end->dist != 0)
+		return (lemin_error(lemin, "Start and end room aren't linked\n"));
 	return (YEP);
 }
 
-int		lemin_solve(t_lemin *lemin, t_map *graph, int ants)
+static void	move(t_lemin *lemin, t_vertex *v, t_vertex *prev)
 {
-	if (dump(lemin, graph, ants))
+	t_vertex	*path;
+	t_vertex	**edge;
+	t_vertex	**end;
+
+	if (v->visited || !(edge = ft_vecbeg(&v->edges)) || lemin->end == v)
+		return ;
+	--edge;
+	path = NULL;
+	end = ft_vecend(&v->edges);
+	v->visited = 1;
+	while (++edge < end)
+		if (!prev || prev != *edge)
+		{
+			if (!path || (*edge)->dist < path->dist)
+				path = *edge;
+			move(lemin, *edge, v);
+		}
+	v->visited = 0;
+	if (!v->occupied || !path)
+		return ;
+	if (lemin->options & OPT_VERB)
+		ft_dprintf(lemin->output, "%d[%s > %s] ", v->occupied, v->id, path->id);
+	else
+		ft_dprintf(lemin->output, "L%d-%s ", v->occupied, path->id);
+	path->occupied = path == lemin->end ? path->occupied + 1 : v->occupied;
+	v->occupied = 0;
+}
+
+static void	solve(t_lemin *lemin, int ants)
+{
+	t_vertex	**edge;
+	t_vertex	**end;
+
+	if (lemin->end->occupied == lemin->ants)
+		return ;
+	edge = (t_vertex **)ft_vecbeg(&lemin->start->edges) - 1;
+	end = ft_vecend(&lemin->start->edges);
+	if (ants < lemin->ants)
+	{
+		lemin->start->occupied = ++ants;
+		move(lemin, lemin->start, NULL);
+	}
+	else
+	{
+		while (++edge < end)
+			move(lemin, *edge, lemin->start);
+	}
+	ft_dprintf(lemin->output, "\n");
+	solve(lemin, ants);
+}
+
+int			lemin_solve(t_lemin *lemin, t_map *graph, int ants)
+{
+	if (lemin_dump(lemin, graph, ants))
 		return (NOP);
+	if (prepare(lemin, graph))
+		return (NOP);
+	lemin->ants = ants;
+	ft_dprintf(lemin->output, "\n");
+	solve(lemin, 0);
 	return (YEP);
 }

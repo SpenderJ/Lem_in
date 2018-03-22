@@ -75,6 +75,8 @@ static int	parseedge(t_lemin *lemin, char *op, t_map *graph, char *from)
 	if (!(len = ft_strlen(op + ++i)) || *(op + i + len) ||
 		!ft_stris(op + i, ft_isalnum))
 		return (ft_free(from, lemin_error(lemin, ERR7, op)));
+	if (!ft_strcmp(from, op + i))
+		return (ft_free(from, YEP));
 	if ((i = lemin_edgeadd(graph, from, op + i)))
 		return (ft_free(from, lemin_error(lemin, i == 1 ? ERR8 : ERR9, op)));
 	free(from);
@@ -131,7 +133,7 @@ int			lemin_parse(t_lemin *lemin, t_map *graph, int *ants)
 	while (!ret && (ret = ft_getln(lemin->input, &op)))
 		if (ret < 0)
 			return (lemin_error(lemin, "%m\n"));
-		else if (op && *op == '#' && *(op + 1) != '#')
+		else if (op && *op == '#' && *(op + 1) != '#' && !(ret = 0))
 			continue ;
 		else if ((ret = parsevertex(lemin, &op, graph)) && ret != NOP)
 			return (ft_free(op, ret));

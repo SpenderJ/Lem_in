@@ -16,6 +16,7 @@ void	lemin_vertexctor(t_vertex *vertex)
 {
 	ft_bzero(vertex, sizeof(t_vertex));
 	ft_vecctor(&vertex->edges, sizeof(t_vertex *));
+	vertex->dist = UINT32_MAX;
 }
 
 void	lemin_vertexdtor(t_vertex *vertex)

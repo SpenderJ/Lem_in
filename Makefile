@@ -39,6 +39,7 @@ endif
 3TH_NAME = libft
 SRC_NAME = \
 	error.c \
+	graph.c \
 	lemin.c \
 	parser.c \
 	solve.c \

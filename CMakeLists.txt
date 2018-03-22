@@ -15,6 +15,7 @@ file(GLOB_RECURSE lemin_HDRS ${lemin_HDRS} include/lemin/*.h)
 
 add_executable(lem-in ${lemin_HDRS} include/lemin.h
   src/error.c
+  src/graph.c
   src/lemin.c
   src/parser.c
   src/solve.c
