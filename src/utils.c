@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-static void		verror(t_lemin *lemin, char const *fmt, va_list ap)
+static void	verror(t_lemin *lemin, char const *fmt, va_list ap)
 {
 	if (lemin->options & OPT_VERB)
 	{
@@ -26,7 +26,7 @@ static void		verror(t_lemin *lemin, char const *fmt, va_list ap)
 		ft_fprintf(g_stderr, "ERROR\n");
 }
 
-int				lemin_error(t_lemin *lemin, char const *fmt, ...)
+int			lemin_error(t_lemin *lemin, char const *fmt, ...)
 {
 	va_list	ap;
 
