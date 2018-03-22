@@ -25,7 +25,6 @@ static int	usage(char *av[])
 	return (EXIT_FAILURE);
 }
 
-
 static int	finalize(t_lemin *lemin, t_map *rooms, int ecode)
 {
 	if (lemin->input != STDIN_FILENO)

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   solve.c                                             :+:      :+:    :+:   */
+/*   solve.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -73,8 +73,7 @@ static void	move(t_lemin *lemin, t_vertex *v, t_vertex *prev)
 	while (++edge < end)
 		if (!prev || prev != *edge)
 		{
-			if (!path || (*edge)->dist < path->dist)
-				path = *edge;
+			!path || (*edge)->dist < path->dist ? (path = *edge) : 0;
 			move(lemin, *edge, v);
 		}
 	v->visited = 0;

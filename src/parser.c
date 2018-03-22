@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                          :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -65,7 +65,7 @@ static int	parseedge(t_lemin *lemin, char *op, t_map *graph, char *from)
 	size_t	len;
 
 	i = 0;
- 	while (op[i] && op[i] != '-')
+	while (op[i] && op[i] != '-')
 		++i;
 	if (op[i] != '-')
 	{

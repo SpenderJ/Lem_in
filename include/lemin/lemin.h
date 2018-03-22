@@ -15,8 +15,8 @@
 
 # include "vertex.h"
 
-#define OPT_VERB (1 << 0)
-#define OPT_STEP (1 << 1)
+# define OPT_VERB (1 << 0)
+# define OPT_STEP (1 << 1)
 
 typedef struct	s_lemin
 {
