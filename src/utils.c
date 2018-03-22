@@ -36,7 +36,27 @@ int			lemin_error(t_lemin *lemin, char const *fmt, ...)
 	return (OUF);
 }
 
-static void	dumpvertex(t_lemin *lemin, t_map *graph)
+static void	updatedist(t_lemin *lemin, size_t dist, t_vertex *v, t_vertex *prev)
+{
+	t_vertex **edge;
+	t_vertex **end;
+
+	if (dist > 500 || !(edge = ft_vecbeg(&v->edges)))
+		return ;
+	if (v->dist > dist)
+		v->dist = dist;
+	else
+		return ;
+	end = ft_vecend(&v->edges);
+	while (edge < end)
+	{
+		if (!prev || *edge != prev)
+			updatedist(lemin, dist + 1, *edge, v);
+		++edge;
+	}
+}
+
+static int	prepare(t_lemin *lemin, t_map *graph)
 {
 	size_t		it;
 	t_vertex	*v;
@@ -46,24 +66,22 @@ static void	dumpvertex(t_lemin *lemin, t_map *graph)
 	while (it < graph->cap)
 		if (!(graph->bucks[it++] & BUCKET_BOTH))
 		{
-			if ((v = (t_vertex *)graph->vals + it - 1)->kind == VERTEX_NONE)
-				ft_dprintf(lemin->output, "%s %d %d\n", v->id, v->x, v->y);
-		}
-	it = 0;
-	while (it < graph->cap)
-		if (!(graph->bucks[it++] & BUCKET_BOTH))
-		{
 			v = (t_vertex *)graph->vals + it - 1;
 			if ((edge = ft_vecbeg(&v->edges)))
 				while (edge < (t_vertex **)ft_vecend(&v->edges))
 				{
-					ft_dprintf(lemin->output, "%s-%s\n", v->id, (*edge)->id);
+					if (!lemin_edged(*edge, v))
+						*(t_vertex **)ft_vecpush(&(*edge)->edges) = v;
 					++edge;
 				}
 		}
+	updatedist(lemin, 0, lemin->end, NULL);
+	if (lemin->start->dist == UINT32_MAX || lemin->end->dist != 0)
+		return (lemin_error(lemin, "Start and end room aren't linked\n"));
+	return (YEP);
 }
 
-static int	check(t_lemin *l, t_map *graph)
+int			lemin_valid(t_lemin *l, t_map *graph)
 {
 	size_t		it;
 	t_vertex	*v;
@@ -87,16 +105,5 @@ static int	check(t_lemin *l, t_map *graph)
 		}
 	if (!l->start || !l->end)
 		return (lemin_error(l, "No start/end rooms\n"));
-	return (YEP);
-}
-
-int			lemin_dump(t_lemin *lemin, t_map *graph, int ants)
-{
-	if (check(lemin, graph))
-		return (NOP);
-	ft_dprintf(lemin->output, "%d\n##start\n%s %d %d\n##end\n%s %d %d\n",
-		ants, lemin->start->id, lemin->start->x, lemin->start->y,
-		lemin->end->id, lemin->end->x, lemin->end->y);
-	dumpvertex(lemin, graph);
-	return (YEP);
+	return (prepare(l, graph));
 }

@@ -17,6 +17,7 @@
 
 struct s_lemin;
 
-extern int	lemin_solve(struct s_lemin *lemin, t_map *graph, int ants);
+extern void		lemin_visit(struct s_lemin *lemin, t_vertex *v);
+extern void		lemin_solve(struct s_lemin *lemin, t_map *graph, int ants);
 
 #endif

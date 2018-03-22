@@ -20,6 +20,7 @@
 # include "int.h"
 # include "str.h"
 # include "ex.h"
+# include "ds.h"
 
 # ifndef FT_PAGE_SIZE
 #  if defined PAGE_SIZE && PAGE_SIZE <= 4096
@@ -59,7 +60,8 @@ extern t_stream	*g_stderr;
 
 extern ssize_t	ft_read(int fd, void *buf, size_t sz);
 extern ssize_t	ft_write(int fd, void const *buf, size_t sz);
-extern int		ft_getln(int const fd, char **line);
+extern int		ft_getln(int fd, char **line);
+extern int		ft_getsln(int fd, char **line, t_sds *sv);
 
 extern t_stream	*ft_fopen(char const *filename, int flags, char *buf, size_t s);
 extern int		ft_fclose(t_stream *s);

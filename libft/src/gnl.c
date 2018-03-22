@@ -13,6 +13,18 @@
 #include "libft/io.h"
 #include "libft/ds.h"
 
+int	ft_getsln(int const fd, char **line, t_sds *sv)
+{
+	int st;
+
+	if ((st = ft_getln(fd, line)) == 1 && line && *line)
+	{
+		ft_sdsapd(sv, *line);
+		ft_sdsapd(sv, "\n");
+	}
+	return (st);
+}
+
 int	ft_getln(int const fd, char **line)
 {
 	static t_sds	c[OPEN_MAX];

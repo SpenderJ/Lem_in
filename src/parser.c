@@ -55,7 +55,7 @@ static int	parseattr(t_lemin *lemin, char **op, t_vertex *vertex)
 		vertex->kind = VERTEX_END;
 	else if (!ft_strcmp((*op) + 2, "start"))
 		vertex->kind = VERTEX_START;
-	if (ft_getln(lemin->input, op) != 1)
+	if (ft_getsln(lemin->input, op, &lemin->map) != 1)
 		return (lemin_error(lemin, ERR5, op));
 	return (YEP);
 }
@@ -118,7 +118,7 @@ int			lemin_parse(t_lemin *lemin, t_map *graph, int *ants)
 	int		ret;
 
 	op = NULL;
-	while ((ret = ft_getln(lemin->input, &op)))
+	while ((ret = ft_getsln(lemin->input, &op, &lemin->map)))
 	{
 		if (ret < 0)
 			return (lemin_error(lemin, "%m\n"));
@@ -131,7 +131,7 @@ int			lemin_parse(t_lemin *lemin, t_map *graph, int *ants)
 	}
 	if (!op || (*ants = ft_atoi(op)) < 0 || errno)
 		return (ft_free(op, lemin_error(lemin, ERRD, op)));
-	while (!ret && (ret = ft_getln(lemin->input, &op)))
+	while (!ret && (ret = ft_getsln(lemin->input, &op, &lemin->map)))
 		if (ret < 0)
 			return (lemin_error(lemin, "%m\n"));
 		else if (op && *op == '#' && *(op + 1) != '#' && !(ret = 0))

@@ -31,6 +31,7 @@ static int	finalize(t_lemin *lemin, t_map *rooms, int ecode)
 		close(lemin->input);
 	if (lemin->output != STDOUT_FILENO)
 		close(lemin->output);
+	ft_sdsdtor(&lemin->map);
 	ft_mapdtor(rooms, (t_dtor)ft_pfree, (t_dtor)lemin_vertexdtor);
 	return (ecode);
 }
@@ -78,21 +79,26 @@ static int	opt(t_lemin *l, int ac, char *av[])
 int			main(int ac, char *av[])
 {
 	t_lemin		lemin;
-	t_map		rooms;
+	t_map		graph;
 	int			ants;
 
 	ft_bzero(&lemin, sizeof(t_lemin));
-	ft_mapctor(&rooms, g_strhash, sizeof(char *), sizeof(t_vertex));
+	ft_mapctor(&graph, g_strhash, sizeof(char *), sizeof(t_vertex));
 	lemin.input = STDIN_FILENO;
 	lemin.output = STDOUT_FILENO;
 	if (opt(&lemin, ac, av))
 	{
 		if ((g_optind < ac) && (lemin.options & OPT_VERB))
 			lemin_error(&lemin, "%s: Unexpected argument.\n", av[g_optind]);
-		finalize(&lemin, &rooms, EXIT_FAILURE);
+		finalize(&lemin, &graph, EXIT_FAILURE);
 		return (usage(av));
 	}
-	if (lemin_parse(&lemin, &rooms, &ants) || lemin_solve(&lemin, &rooms, ants))
-		return (finalize(&lemin, &rooms, EXIT_FAILURE));
-	return (finalize(&lemin, &rooms, EXIT_SUCCESS));
+	if (lemin_parse(&lemin, &graph, &ants) || lemin_valid(&lemin, &graph))
+		return (finalize(&lemin, &graph, EXIT_FAILURE));
+	if (lemin.map.len)
+		ft_dprintf(lemin.output, lemin.map.buf);
+	lemin.ants = ants;
+	ft_dprintf(lemin.output, "\n");
+	lemin_solve(&lemin, &graph, 0);
+	return (finalize(&lemin, &graph, EXIT_SUCCESS));
 }
