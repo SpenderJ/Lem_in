@@ -6,7 +6,7 @@
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 10:47:57 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/22 13:58:55 by juspende         ###   ########.fr       */
+/*   Updated: 2018/03/23 15:49:47 by juspende         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void			update(int sig)
 
 void			lemin_guiexit(void)
 {
+	if (!g_lemin || !(g_lemin->options & OPT_NGUI))
+		return ;
 	usleep(3000000);
 	endwin();
 }
