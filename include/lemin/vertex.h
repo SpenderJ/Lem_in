@@ -29,6 +29,7 @@ typedef struct	s_vertex
 	int			x;
 	int			y;
 	t_vec		edges;
+	int			inpath;
 	int			visited;
 	int			occupied;
 	size_t		dist;

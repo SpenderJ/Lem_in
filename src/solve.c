@@ -18,26 +18,24 @@ static t_vertex	*getmin(t_lemin *lemin, t_vertex *v)
 	t_vertex	*min;
 	t_vertex	**edge;
 	t_vertex	**end;
-	int			visited;
 
 	min = NULL;
 	if (!(edge = ft_vecbeg(&v->edges)))
 		return (min);
 	--edge;
 	end = ft_vecend(&v->edges);
-	visited = v->visited;
-	v->visited = 1;
+	v->inpath = 1;
 	while (++edge < end)
 	{
 		if ((*edge) != lemin->start &&
-			(*edge) != lemin->end && !(*edge)->visited)
+			(*edge) != lemin->end && !(*edge)->inpath)
 			lemin_visit(lemin, *edge);
 		if ((!(*edge)->occupied || (*edge) == lemin->end) &&
-			(!min || (*edge)->dist < min->dist))
+			(!min || (*edge)->dist < min->dist) )
 			min = *edge;
 	}
-	v->visited = visited;
-	if (min && min->dist > v->dist)
+	v->inpath = 0;
+	if (min && min->dist > v->dist && v != lemin->start)
 		return (NULL);
 	return (min);
 }
@@ -60,9 +58,9 @@ void			lemin_visit(t_lemin *lemin, t_vertex *v)
 {
 	t_vertex *path;
 
-	if (lemin->end == v || !(path = getmin(lemin, v)))
+	if (!(path = getmin(lemin, v)))
 		return ;
-	if (!v->occupied || !path)
+	if (!v->occupied || v->visited || (path->occupied && path != lemin->end))
 		return ;
 	if (lemin->options & OPT_VERB)
 		ft_dprintf(lemin->output, "%d[%s > %s] ", v->occupied, v->id, path->id);
