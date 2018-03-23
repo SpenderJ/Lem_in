@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin.h                                            :+:      :+:    :+:   */
+/*   libft/math/point.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/21 10:46:24 by juspende          #+#    #+#             */
-/*   Updated: 2018/03/21 19:29:18 by juspende         ###   ########.fr       */
+/*   Created: 2017/12/10 10:28:45 by alucas-           #+#    #+#             */
+/*   Updated: 2017/12/10 10:34:53 by alucas-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_H
-# define LEMIN_H
+#ifndef LIBFT_MATH_POINT_H
+# define LIBFT_MATH_POINT_H
 
-# include "lemin/gui.h"
-# include "lemin/lemin.h"
-# include "lemin/parser.h"
-# include "lemin/vertex.h"
-# include "lemin/solve.h"
+# include <math.h>
+
+typedef struct	s_point
+{
+	int			x;
+	int			y;
+}				t_point;
 
 #endif

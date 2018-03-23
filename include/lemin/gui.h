@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin.h                                            :+:      :+:    :+:   */
+/*   lemin/gui.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juspende <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,28 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_LEMIN_H
-# define LEMIN_LEMIN_H
+#ifndef LEMIN_GUI_H
+# define LEMIN_GUI_H
 
-# include "vertex.h"
+# include "lemin.h"
 
-# define OPT_VERB (1 << 0)
-# define OPT_STEP (1 << 1)
-# define OPT_NGUI (1 << 2)
-
-typedef struct	s_lemin
-{
-	char const	*prg;
-	int			input;
-	int			output;
-	int			options;
-	t_sds		map;
-	int			ants;
-	t_vertex	*start;
-	t_vertex	*end;
-}				t_lemin;
-
-extern int		lemin_error(t_lemin *lemin, char const *fmt, ...);
-extern int		lemin_valid(t_lemin *l, t_map *graph);
+extern void	lemin_guiinit(t_lemin *lemin, t_map *graph);
+extern void	lemin_guiexit(void);
+extern void	lemin_guidraw(void);
 
 #endif

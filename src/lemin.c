@@ -15,10 +15,11 @@
 static int	usage(char *av[])
 {
 	ft_printf(
-		"usage: %s [-hvs] [-i <filename>] [-o <filename>]\n"
+		"usage: %s [-hvsg] [-i <filename>] [-o <filename>]\n"
 		"  -h              Show this help.\n"
 		"  -s              Execute the program step by step (imply -v).\n"
 		"  -v              Output some verbose to the standard error output.\n"
+		"  -g              Enable the ncurses GUI.\n"
 		"  -i <filename>   Use `filename` as input.\n"
 		"  -o <filename>   Output standard output to `filename`.\n",
 		av[0]);
@@ -54,13 +55,15 @@ static int	opt(t_lemin *l, int ac, char *av[])
 
 	g_optind = 1;
 	l->prg = av[0];
-	while ((opt = ft_getopt(ac, av, "hvsi:o:")) != WUT)
-		if (opt == 'h')
+	while ((opt = ft_getopt(ac, av, "hvsgi:o:")) != WUT)
+		if (opt == 'h' || !ft_strchr("vsgio", opt))
 			return (NOP);
 		else if (opt == 'v')
 			l->options |= OPT_VERB;
 		else if (opt == 's')
 			l->options |= (OPT_STEP | OPT_VERB);
+		else if (opt == 'g')
+			l->options |= OPT_NGUI;
 		else if (opt == 'i')
 		{
 			if (tryopen(l, g_optarg, O_RDONLY, &l->input))
@@ -71,8 +74,6 @@ static int	opt(t_lemin *l, int ac, char *av[])
 			if (tryopen(l, g_optarg, O_WRONLY | O_CREAT | O_TRUNC, &l->output))
 				return (NOP);
 		}
-		else
-			return (NOP);
 	return (g_optind < ac);
 }
 
@@ -97,8 +98,10 @@ int			main(int ac, char *av[])
 		return (finalize(&lemin, &graph, EXIT_FAILURE));
 	if (lemin.map.len)
 		ft_dprintf(lemin.output, lemin.map.buf);
+	lemin_guiinit(&lemin, &graph);
 	lemin.ants = ants;
 	ft_dprintf(lemin.output, "\n");
 	lemin_solve(&lemin, &graph, 0);
+	lemin_guiexit();
 	return (finalize(&lemin, &graph, EXIT_SUCCESS));
 }

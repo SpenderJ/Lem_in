@@ -34,10 +34,11 @@ LIB_NAME = $(addsuffix .dev, $(LIBS))
 else ifneq (,$(findstring san,$(PROJECT)))
 LIB_NAME = $(addsuffix .san, $(LIBS))
 else
-LIB_NAME = $(LIBS)
+LIB_NAME = $(LIBS) ncurses
 endif
 3TH_NAME = libft
 SRC_NAME = \
+	gui.c \
 	lemin.c \
 	parser.c \
 	solve.c \

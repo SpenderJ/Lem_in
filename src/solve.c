@@ -12,6 +12,7 @@
 
 #include "lemin/solve.h"
 #include "lemin/lemin.h"
+#include "lemin/gui.h"
 
 static t_vertex	*getmin(t_lemin *lemin, t_vertex *v)
 {
@@ -71,6 +72,7 @@ void			lemin_visit(t_lemin *lemin, t_vertex *v)
 	path->occupied = path == lemin->end ? path->occupied + 1 : v->occupied;
 	path->visited = 1;
 	v->occupied = 0;
+	lemin_guidraw();
 }
 
 void			lemin_solve(t_lemin *lemin, t_map *graph, int ants)

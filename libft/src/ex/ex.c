@@ -21,7 +21,7 @@ static int		ex_dft_hdl(int rcode, void *arg)
 	(void)arg;
 	if (errno)
 	{
-		ft_dprintf(2, COLOR_BRED"error: "COLOR_RESET"%m\n");
+		ft_dprintf(2, CLR_BRED"error: "CLR_RESET"%m\n");
 		exit(1);
 	}
 	return (rcode);

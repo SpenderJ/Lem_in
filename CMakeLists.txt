@@ -14,6 +14,7 @@ set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_STATIC_LINKER_FLAGS_DEBUG}
 file(GLOB_RECURSE lemin_HDRS ${lemin_HDRS} include/lemin/*.h)
 
 add_executable(lem-in ${lemin_HDRS} include/lemin.h
+  src/gui.c
   src/lemin.c
   src/parser.c
   src/solve.c
@@ -21,7 +22,7 @@ add_executable(lem-in ${lemin_HDRS} include/lemin.h
   src/vertex.c)
 set_property(TARGET lem-in PROPERTY C_STANDARD 90)
 target_include_directories(lem-in PUBLIC include)
-target_link_libraries(lem-in PUBLIC debug ft)
+target_link_libraries(lem-in PUBLIC debug ft ncurses)
 
 target_compile_definitions(lem-in
   PRIVATE $<$<CONFIG:Debug>:DEBUG>$<$<CONFIG:Release>:NDEBUG>)
