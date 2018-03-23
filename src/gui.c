@@ -49,12 +49,14 @@ void			lemin_guidraw(void)
 {
 	size_t		it;
 
-	if (!stdscr || !g_lemin || !(g_lemin->options & OPT_NGUI))
+	if (!g_lemin || !(g_lemin->options & OPT_NGUI))
 		return ;
 	it = 0;
 	while (it < g_graph->cap)
+	{
 		if (!(g_graph->bucks[it++] & BUCKET_BOTH))
 			drawvertex((t_vertex *)g_graph->vals + it - 1);
+	}
 	wrefresh(stdscr);
 	usleep(300000);
 }

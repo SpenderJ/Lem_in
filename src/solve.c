@@ -67,7 +67,7 @@ void			lemin_visit(t_lemin *lemin, t_vertex *v)
 	if (lemin->options & OPT_VERB)
 		ft_dprintf(lemin->output, "%d[%s(%d) > %s(%d)] ",
 			v->occupied, v->id, v->dist, path->id, path->dist);
-	else
+	else if (!(lemin->options & OPT_NGUI))
 		ft_dprintf(lemin->output, "L%d-%s ", v->occupied, path->id);
 	path->occupied = path == lemin->end ? path->occupied + 1 : v->occupied;
 	path->visited = 1;
@@ -100,6 +100,6 @@ void			lemin_solve(t_lemin *lemin, t_map *graph, int ants)
 		}
 	if (lemin->options & OPT_STEP && isatty(STDIN_FILENO))
 		read(STDIN_FILENO, NULL, 1);
-	ft_dprintf(lemin->output, "\n");
+	!(lemin->options & OPT_NGUI) ? ft_dprintf(lemin->output, "\n") : 0;
 	lemin_solve(lemin, graph, ants);
 }
