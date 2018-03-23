@@ -12,24 +12,24 @@
 
 #include "libft/ds.h"
 
-static inline char	hswap(t_map *self, void **key, void **val, uint32_t i)
+static inline char	hswap(t_map *self, char *key, char *val, uint32_t i)
 {
-	void *tmp;
+	char tmp[self->ksz > self->vsz ? self->ksz : self->vsz];
 
 	if (i < self->cap && !(self->bucks[i] & BUCKET_BOTH))
 	{
-		tmp = *(void **)((char *)self->keys + (i * self->ksz));
-		*(void **)((char *)self->keys + (i * self->ksz)) = *key;
-		*key = tmp;
-		tmp = *(void **)((char *)self->vals + (i * self->vsz));
-		*(void **)((char *)self->vals + (i * self->vsz)) = *val;
-		*val = tmp;
+		ft_memcpy(tmp, ((char *)self->keys + (i * self->ksz)), self->ksz);
+		ft_memcpy(((char *)self->keys + (i * self->ksz)), key, self->ksz);
+		ft_memcpy(key, tmp, self->ksz);
+		ft_memcpy(tmp, ((char *)self->vals + (i * self->vsz)), self->vsz);
+		ft_memcpy(((char *)self->vals + (i * self->vsz)), val, self->vsz);
+		ft_memcpy(val, tmp, self->vsz);
 		self->bucks[i] |= BUCKET_DELETED;
 	}
 	else
 	{
-		*(void **)((char *)self->keys + (i * self->ksz)) = *key;
-		*(void **)((char *)self->vals + (i * self->vsz)) = *val;
+		ft_memcpy((char *)self->keys + (i * self->ksz), key, self->ksz);
+		ft_memcpy((char *)self->vals + (i * self->vsz), val, self->vsz);
 		return (1);
 	}
 	return (0);
@@ -37,24 +37,24 @@ static inline char	hswap(t_map *self, void **key, void **val, uint32_t i)
 
 static inline void	reh1(t_map *self, uint32_t sz, uint8_t *bucks, uint32_t j)
 {
-	void		*key;
-	void		*val;
+	char		key[self->ksz];
+	char		val[self->vsz];
 	uint32_t	k;
 	uint32_t	i;
 	uint32_t	step;
 
 	step = 0;
-	key = *(void **)((char *)self->keys + (j * self->ksz));
-	val = *(void **)((char *)self->vals + (j * self->vsz));
+	ft_memcpy(key, ((char *)self->keys + (j * self->ksz)), self->ksz);
+	ft_memcpy(val, ((char *)self->vals + (j * self->vsz)), self->vsz);
 	self->bucks[j] |= BUCKET_DELETED;
 	while (1)
 	{
-		k = self->hasher.hash(key);
+		k = self->hasher.hash(*(char **)key);
 		i = k & (sz - 1);
 		while ((bucks[i] & BUCKET_EMPTY) != BUCKET_EMPTY)
 			i = (i + (++step)) & (sz - 1);
 		bucks[i] &= ~BUCKET_EMPTY;
-		if (hswap(self, &key, &val, i))
+		if (hswap(self, key, val, i))
 			break ;
 	}
 }
@@ -72,10 +72,8 @@ static inline void	reh(t_map *self, uint32_t sz, uint8_t *bucks)
 	}
 	if (self->cap > sz)
 	{
-		self->keys = ft_realloc(self->keys, self->len * self->ksz,
-			sz * self->ksz);
-		self->vals = ft_realloc(self->vals, self->len * self->vsz,
-			sz * self->vsz);
+		self->keys = ft_realloc(self->keys, sz * self->ksz, sz * self->ksz);
+		self->vals = ft_realloc(self->vals, sz * self->vsz, sz * self->vsz);
 	}
 	free(self->bucks);
 	self->bucks = bucks;
@@ -100,12 +98,10 @@ size_t				ft_maprsz(t_map *self, uint32_t sz)
 		ft_memset(bucks, BUCKET_EMPTY, sz);
 		if (self->cap < sz)
 		{
-			self->keys = ft_realloc(self->keys, self->len * self->ksz,
+			self->keys = ft_realloc(self->keys, self->cap * self->ksz,
 				sz * self->ksz);
-			self->vals = ft_realloc(self->vals, self->len * self->vsz,
+			self->vals = ft_realloc(self->vals, self->cap * self->vsz,
 				sz * self->vsz);
-			ft_bzero(self->vals + (self->len * self->vsz),
-				(sz * self->vsz) - (self->len * self->vsz));
 		}
 	}
 	if (j)
