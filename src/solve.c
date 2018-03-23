@@ -31,7 +31,8 @@ static t_vertex	*getmin(t_lemin *lemin, t_vertex *v)
 			(*edge) != lemin->end && !(*edge)->inpath)
 			lemin_visit(lemin, *edge);
 		if ((!(*edge)->occupied || (*edge) == lemin->end) &&
-			(!min || (*edge)->dist < min->dist) )
+			(!min || (*edge)->dist <= min->dist) &&
+			(*edge) != lemin->start && (*edge)->dist != UINT32_MAX)
 			min = *edge;
 	}
 	v->inpath = 0;
@@ -63,7 +64,8 @@ void			lemin_visit(t_lemin *lemin, t_vertex *v)
 	if (!v->occupied || v->visited || (path->occupied && path != lemin->end))
 		return ;
 	if (lemin->options & OPT_VERB)
-		ft_dprintf(lemin->output, "%d[%s > %s] ", v->occupied, v->id, path->id);
+		ft_dprintf(lemin->output, "%d[%s(%d) > %s(%d)] ",
+			v->occupied, v->id, v->dist, path->id, path->dist);
 	else
 		ft_dprintf(lemin->output, "L%d-%s ", v->occupied, path->id);
 	path->occupied = path == lemin->end ? path->occupied + 1 : v->occupied;

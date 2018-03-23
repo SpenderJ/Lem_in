@@ -41,11 +41,13 @@ static void	updatedist(t_lemin *lemin, size_t dist, t_vertex *v, t_vertex *prev)
 	t_vertex **edge;
 	t_vertex **end;
 
-	if (dist > 500 || !(edge = ft_vecbeg(&v->edges)))
+	if (prev == lemin->start || dist > 500 || !(edge = ft_vecbeg(&v->edges)))
 		return ;
 	if (v->dist > dist)
 		v->dist = dist;
 	else
+		return ;
+	if (v == lemin->start)
 		return ;
 	end = ft_vecend(&v->edges);
 	while (edge < end)
